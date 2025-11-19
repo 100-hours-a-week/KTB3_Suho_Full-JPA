@@ -1,0 +1,97 @@
+/* 게시글 목록 페이지 전용 스타일 */
+
+/* 게시판 제목 영역 */
+.board-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.board-title h2 {
+    margin: 5px 0;
+    color: #333;
+    font-weight: normal;
+}
+
+.board-title h2 strong {
+    font-weight: bold;
+}
+
+/* 목록 헤더 (작성 버튼 영역) */
+.list-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* 게시글 작성 버튼 */
+.write-button {
+    padding: 12px 24px;
+    background-color: #ACA0EB;
+    color: white;
+    text-decoration: none;
+    border-radius: 16px;
+    font-weight: 500;
+    position: relative;
+    z-index: 10;
+}
+
+.write-button:hover {
+    background-color: #7F6AEE;
+}
+
+/* 게시글 목록 */
+.board-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 게시글 아이템 */
+.post-item {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 3px 4px 4px 0px #CCCCCC40;
+    padding: 20px;
+    cursor: pointer;
+}
+
+/* 게시글 제목 */
+.post-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0 0 12px 0;
+    color: #333;
+    text-align: left;
+}
+
+/* 게시글 메타 정보 (좋아요, 댓글, 조회수) */
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.post-meta span {
+    margin-right: 4px;
+}
+
+.post-date {
+    margin-left: auto;
+}
+
+/* 작성자 정보 */
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.author-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}

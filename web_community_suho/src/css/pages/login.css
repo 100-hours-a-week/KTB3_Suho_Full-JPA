@@ -1,0 +1,7 @@
+/* 로그인 페이지 전용 스타일 */
+
+/* 헬퍼 텍스트 높이 고정 (로그인 페이지용) */
+#helperText {
+    height: 20px;
+    line-height: 20px;
+}
