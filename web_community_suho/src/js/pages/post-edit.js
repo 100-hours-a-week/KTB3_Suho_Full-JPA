@@ -116,9 +116,9 @@ function updateButtonState() {
     const isValid = title && content;
 
     if (isValid) {
-        submitButton.style.backgroundColor = '#7F6AEE';
+        submitButton.style.backgroundColor = '#E56922';
     } else {
-        submitButton.style.backgroundColor = '#ACA0EB';
+        submitButton.style.backgroundColor = '#D1D5DB';
     }
 }
 
@@ -138,7 +138,7 @@ document.getElementById("postEditForm").addEventListener("submit", handleSubmit)
 showHelperText(imageHelperText, ERROR_MESSAGES.IMAGE_FILE_SELECT);
 
 // 초기 버튼 색상 설정
-submitButton.style.backgroundColor = '#ACA0EB';
+submitButton.style.backgroundColor = '#D1D5DB';
 
 // 초기 데이터 로드
 loadPostData();

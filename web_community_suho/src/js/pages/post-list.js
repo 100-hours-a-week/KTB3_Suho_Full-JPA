@@ -1,10 +1,12 @@
 // ============== Import 문 =================
 
 import { formatDate } from '../utils/formatter.js'
+import { requireLogin } from '../utils/auth-modal.js'
 
 // ============== DOM 요소 참조 및 상수 =================
 
 const postList = document.getElementById("boardList");
+const writeButton = document.getElementById("writeButton");
 
 let currentCursor = null;
 let observer = null;
@@ -114,6 +116,14 @@ async function renderPostList() {
 
 // ============== 이벤트 리스너 등록 =================
 
+// 게시글 작성 버튼 클릭
+writeButton.addEventListener("click", () => {
+    requireLogin(() => {
+        window.location.href = './create.html';
+    });
+});
+
+// 게시글 클릭
 postList.addEventListener("click", (e) => {
     const postItem = e.target.closest('.post-item');
     if(postItem) {
@@ -123,5 +133,6 @@ postList.addEventListener("click", (e) => {
 })
 
 // ============== 초기 실행 코드 =================
+
 
 renderPostList();

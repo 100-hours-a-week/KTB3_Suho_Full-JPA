@@ -1,6 +1,7 @@
 // ============== Import 문 =================
 
 import { formatDate } from "../utils/formatter.js";
+import { requireLogin } from "../utils/auth-modal.js";
 
 // ============== DOM 요소 참조 및 상수 =================
 
@@ -323,12 +324,16 @@ modalConfirmButton.addEventListener('click', () => {
     hideDeleteModal();
 });
 
-commentSubmitButton.addEventListener('click', createOrUpdateComment);
+commentSubmitButton.addEventListener('click', () => {
+    requireLogin(createOrUpdateComment);
+});
 contentField.addEventListener('input', updateCommentButtonState);
 
 document.getElementById('editButton').addEventListener('click', editPost);
 document.getElementById('deleteButton').addEventListener('click', deletePost);
-document.getElementById('likeButton').addEventListener('click', toggleLike);
+document.getElementById('likeButton').addEventListener('click', () => {
+    requireLogin(toggleLike);
+});
 
 // ============== 초기 실행 코드 =================
 

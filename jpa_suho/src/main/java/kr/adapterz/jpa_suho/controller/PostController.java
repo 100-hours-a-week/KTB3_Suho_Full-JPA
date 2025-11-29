@@ -3,10 +3,12 @@ package kr.adapterz.jpa_suho.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import kr.adapterz.jpa_suho.dto.common.CommonResponse;
 import kr.adapterz.jpa_suho.dto.post.*;
 import kr.adapterz.jpa_suho.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,19 +23,18 @@ public class PostController {
     @Operation(summary = "게시물 등록", description = "새로운 게시물을 등록합니다.")
     @ApiResponse(responseCode = "201", description = "Created")
     public ResponseEntity<CommonResponse<CreatePostResponse>> create(
-            @RequestBody CreatePostRequest request,
+            @Valid @RequestBody CreatePostRequest request,
             @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
 
         Long postId = postService.create(userId, request.getTitle(), request.getContent(), request.getImageUrl());
 
-        CommonResponse<CreatePostResponse> commonApiResponse = new CommonResponse<>(
-                "201",
+        CommonResponse<CreatePostResponse> response = new CommonResponse<>(
+                "POST_CREATE_SUCCESS",
                 "게시물이 정상적으로 등록됐습니다.",
                 new CreatePostResponse(postId)
         );
 
-        return ResponseEntity.status(201).body(commonApiResponse);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
@@ -41,40 +42,50 @@ public class PostController {
     @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<CommonResponse<GetPostsResponse>> getPosts(
             @RequestParam(required = false, defaultValue = "20") int size,
-            @RequestParam(required= false) Long nextCursor
-    ) {
+            @RequestParam(required = false) Long nextCursor) {
 
         nextCursor = nextCursor == null ? Long.MAX_VALUE : nextCursor;
 
         GetPostsResponse postsResponse = postService.findWithSize(size, nextCursor);
 
-        CommonResponse<GetPostsResponse> commonApiResponse = new CommonResponse<>("200", "게시물 목록을 정상적으로 불러왔습니다.", postsResponse);
+        CommonResponse<GetPostsResponse> response = new CommonResponse<>(
+                "POST_LIST_SUCCESS",
+                "게시물 목록을 정상적으로 불러왔습니다.",
+                postsResponse
+        );
 
-        return ResponseEntity.status(200).body(commonApiResponse);
-
-   }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     @PutMapping("/{postId}")
     @Operation(summary = "게시물 수정", description = "게시물의 제목, 내용, 이미지를 수정합니다.")
     @ApiResponse(responseCode = "200", description = "OK")
-    public ResponseEntity<CommonResponse<UpdatePostResponse>> updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request, @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
+    public ResponseEntity<CommonResponse<UpdatePostResponse>> updatePost(
+            @PathVariable Long postId,
+            @Valid @RequestBody UpdatePostRequest request,
+            @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
 
         Long id = postService.update(postId, userId, request.getTitle(), request.getContent(), request.getPostImageUrl());
 
-        CommonResponse<UpdatePostResponse> response = new CommonResponse<>("post_update_success", "게시물이 수정됐습니다.", new UpdatePostResponse(id));
+        CommonResponse<UpdatePostResponse> response = new CommonResponse<>(
+                "POST_UPDATE_SUCCESS",
+                "게시물이 수정됐습니다.",
+                new UpdatePostResponse(id)
+        );
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{postId}")
     @Operation(summary = "게시물 삭제", description = "게시물ID를 통해 게시물을 삭제합니다.")
     @ApiResponse(responseCode = "204", description = "No Content")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId, @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
+    public ResponseEntity<Void> deletePost(
+            @PathVariable Long postId,
+            @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
 
         postService.delete(postId, userId);
 
-        return ResponseEntity.status(204).build();
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/{postId}")
@@ -82,19 +93,17 @@ public class PostController {
     @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<CommonResponse<DetailPostResponse>> getPostById(
             @PathVariable Long postId,
-            @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
+            @Parameter(hidden = true) @SessionAttribute(value = "userId", required = false) Long userId) {
 
         DetailPostResponse detailPostResponse = postService.findById(postId, userId);
 
-        CommonResponse<DetailPostResponse> response = new CommonResponse<>("post_detail_success", "게시물(상세)를 정상적으로 불러왔습니다.", detailPostResponse);
+        CommonResponse<DetailPostResponse> response = new CommonResponse<>(
+                "POST_DETAIL_SUCCESS",
+                "게시물(상세)를 정상적으로 불러왔습니다.",
+                detailPostResponse
+        );
 
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-    // TODO: 게시글 상세 댓글 추가
-
-    // TODO: 게시글 목록 댓글수, 목록수, 조회수 추가
-
-
 
 }

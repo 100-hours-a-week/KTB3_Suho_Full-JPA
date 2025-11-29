@@ -20,7 +20,7 @@ public class LoginCheckFilter implements Filter {
     private static final List<String> EXCLUDE_URLS = Arrays.asList(
             "/api/v1/users",           // 회원가입
             "/api/v1/login",           // 로그인
-            "/api/v1/posts",           // 게시물 (임시 - 개발용)
+            "/api/v1/posts",           // 게시물
             "/swagger-ui",             // Swagger
             "/v3/api-docs"             // Swagger API 문서
     );

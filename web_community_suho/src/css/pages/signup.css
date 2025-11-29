@@ -1,5 +1,29 @@
 /* 회원가입 페이지 전용 스타일 */
 
+/* 회원가입 카드 */
+.signup-card {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    padding: 48px 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    margin: 0 0 40px 0;
+}
+
+.signup-logo {
+    display: block;
+    width: 120px;
+    height: auto;
+}
+
+.signup-card h2 {
+    text-align: center;
+    margin-bottom: 32px;
+    color: #111827;
+    font-size: 28px;
+}
+
 /* 이메일 표시 텍스트 */
 .email-display {
     font-size: 14px;

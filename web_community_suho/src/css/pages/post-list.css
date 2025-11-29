@@ -8,12 +8,13 @@
 
 .board-title h2 {
     margin: 5px 0;
-    color: #333;
+    color: #374151;
     font-weight: normal;
 }
 
 .board-title h2 strong {
     font-weight: bold;
+    color: #111827;
 }
 
 /* 목록 헤더 (작성 버튼 영역) */
@@ -26,17 +27,21 @@
 /* 게시글 작성 버튼 */
 .write-button {
     padding: 12px 24px;
-    background-color: #ACA0EB;
+    background-color: #E56922;
     color: white;
     text-decoration: none;
+    border: none;
     border-radius: 16px;
     font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
     position: relative;
     z-index: 10;
+    transition: background-color 0.3s;
 }
 
 .write-button:hover {
-    background-color: #7F6AEE;
+    background-color: #C5511A;
 }
 
 /* 게시글 목록 */
@@ -49,10 +54,17 @@
 /* 게시글 아이템 */
 .post-item {
     background-color: white;
-    border-radius: 16px;
-    box-shadow: 3px 4px 4px 0px #CCCCCC40;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
     padding: 20px;
     cursor: pointer;
+    transition: all 0.2s;
+}
+
+.post-item:hover {
+    border-color: #E56922;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
 }
 
 /* 게시글 제목 */
@@ -60,7 +72,7 @@
     font-weight: bold;
     font-size: 18px;
     margin: 0 0 12px 0;
-    color: #333;
+    color: #111827;
     text-align: left;
 }
 
@@ -70,7 +82,7 @@
     align-items: center;
     gap: 12px;
     font-size: 14px;
-    color: #666;
+    color: #6B7280;
     margin-bottom: 12px;
 }
 

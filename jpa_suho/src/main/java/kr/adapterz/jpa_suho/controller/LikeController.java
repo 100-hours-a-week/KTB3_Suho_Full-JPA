@@ -7,6 +7,7 @@ import kr.adapterz.jpa_suho.dto.common.CommonResponse;
 import kr.adapterz.jpa_suho.dto.like.CreateLikeResponse;
 import kr.adapterz.jpa_suho.service.LikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,24 +28,24 @@ public class LikeController {
         int likeCount = likeService.createLike(postId, userId);
 
         CommonResponse<CreateLikeResponse> response = new CommonResponse<>(
-                "like_created",
+                "LIKE_CREATE_SUCCESS",
                 "좋아요가 추가되었습니다.",
                 new CreateLikeResponse(postId, likeCount)
         );
 
-        return ResponseEntity.status(201).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping
     @Operation(summary = "좋아요 취소", description = "게시물의 좋아요를 취소합니다.")
     @ApiResponse(responseCode = "204", description = "No Content")
-    public ResponseEntity<CommonResponse<Void>> deleteLike(
+    public ResponseEntity<Void> deleteLike(
             @PathVariable Long postId,
             @Parameter(hidden = true) @SessionAttribute("userId") Long userId) {
 
         likeService.deleteLike(postId, userId);
 
-        return ResponseEntity.status(204).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

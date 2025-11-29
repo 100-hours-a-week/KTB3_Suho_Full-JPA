@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import kr.adapterz.jpa_suho.dto.common.CommonResponse;
 import kr.adapterz.jpa_suho.dto.user.*;
+import kr.adapterz.jpa_suho.exception.ForbiddenException;
 import kr.adapterz.jpa_suho.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +22,18 @@ public class UserController {
     @PostMapping
     @Operation(summary = "회원가입", description = "새로운 사용자 정보를 등록합니다.")
     @ApiResponse(responseCode = "201", description = "Created")
-    public ResponseEntity<CommonResponse<CreateUserResponse>> create(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<CommonResponse<CreateUserResponse>> create(
+            @Valid @RequestBody CreateUserRequest request) {
 
         Long id = userService.create(request.getEmail(), request.getPassword(), request.getNickname(), request.getProfileImageUrl());
 
         CommonResponse<CreateUserResponse> response = new CommonResponse<>(
-                "201",
-                "Created",
+                "USER_CREATE_SUCCESS",
+                "회원가입이 완료되었습니다.",
                 new CreateUserResponse(id)
         );
 
-        return ResponseEntity.status(201).body(response);
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
@@ -42,19 +44,18 @@ public class UserController {
             @SessionAttribute("userId") Long sessionUserId) {
 
         if (!id.equals(sessionUserId)) {
-            throw new IllegalArgumentException("자신의 정보만 조회할 수 있습니다.");
+            throw new ForbiddenException("자신의 정보만 조회할 수 있습니다.");
         }
 
         UserInfo userInfo = userService.findById(id);
 
         CommonResponse<GetUserResponse> response = new CommonResponse<>(
-                "200",
-                "OK",
+                "USER_INFO_SUCCESS",
+                "사용자 정보를 조회했습니다.",
                 new GetUserResponse(userInfo.getEmail(), userInfo.getNickname(), userInfo.getProfileImageUrl())
-                );
+        );
 
-        return ResponseEntity.status(200).body(response);
-
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
@@ -65,13 +66,12 @@ public class UserController {
             @SessionAttribute("userId") Long sessionUserId) {
 
         if (!id.equals(sessionUserId)) {
-            throw new IllegalArgumentException("자신의 계정만 탈퇴할 수 있습니다.");
+            throw new ForbiddenException("자신의 계정만 탈퇴할 수 있습니다.");
         }
 
         userService.deleteById(id);
 
-        return ResponseEntity.status(204).build();
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/{id}/nickname")
@@ -83,13 +83,12 @@ public class UserController {
             @SessionAttribute("userId") Long sessionUserId) {
 
         if (!id.equals(sessionUserId)) {
-            throw new IllegalArgumentException("자신의 닉네임만 변경할 수 있습니다.");
+            throw new ForbiddenException("자신의 닉네임만 변경할 수 있습니다.");
         }
 
         userService.changeNickname(id, request.getNickname());
 
-        return ResponseEntity.status(204).build();
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/{id}/password")
@@ -101,13 +100,12 @@ public class UserController {
             @SessionAttribute("userId") Long sessionUserId) {
 
         if (!id.equals(sessionUserId)) {
-            throw new IllegalArgumentException("자신의 비밀번호만 변경할 수 있습니다.");
+            throw new ForbiddenException("자신의 비밀번호만 변경할 수 있습니다.");
         }
 
         userService.changePassword(id, request.getPassword());
 
-        return ResponseEntity.status(204).build();
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

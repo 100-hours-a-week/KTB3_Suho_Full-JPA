@@ -1,7 +1,159 @@
 /* 로그인 페이지 전용 스타일 */
 
+/* 좌우 분할 레이아웃 */
+.login-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 왼쪽: 브랜딩 섹션 */
+.branding-section {
+    flex: 1;
+    background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    color: #111827;
+    border-right: 1px solid #E5E7EB;
+}
+
+.branding-content {
+    max-width: 500px;
+    text-align: center;
+}
+
+.branding-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 24px;
+}
+
+.branding-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #E56922;
+}
+
+.branding-subtitle {
+    font-size: 20px;
+    margin-bottom: 48px;
+    color: #6B7280;
+    line-height: 1.6;
+}
+
+.branding-features {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: left;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.feature-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.feature-item p {
+    font-size: 16px;
+    margin: 0;
+    color: #374151;
+    font-weight: 500;
+}
+
+/* 게스트 링크 */
+.guest-link {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 12px 24px;
+    background-color: transparent;
+    color: #E56922;
+    border: 2px solid #E56922;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.guest-link:hover {
+    background-color: #E56922;
+    color: white;
+}
+
+/* 오른쪽: 로그인 폼 */
+.form-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background-color: #F8F9FA;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: white;
+    padding: 48px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 32px;
+    color: #111827;
+    font-size: 28px;
+}
+
 /* 헬퍼 텍스트 높이 고정 (로그인 페이지용) */
 #helperText {
     height: 20px;
     line-height: 20px;
+}
+
+/* 반응형 - 작은 화면에서는 세로 배치 */
+@media (max-width: 768px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+
+    .branding-section {
+        padding: 40px 20px;
+        min-height: 40vh;
+    }
+
+    .branding-logo {
+        width: 80px;
+    }
+
+    .branding-title {
+        font-size: 32px;
+    }
+
+    .branding-subtitle {
+        font-size: 16px;
+        margin-bottom: 32px;
+    }
+
+    .form-section {
+        padding: 40px 20px;
+    }
+
+    .form-container {
+        padding: 32px 24px;
+    }
 }
