@@ -3,6 +3,7 @@
 import { ERROR_MESSAGES, SIGNUP_HELPER_MESSAGE } from "../config/constants.js";
 import { isValidNickname } from "../utils/validation.js";
 import { showErrorHelperText, showHelperText } from "../utils/helperText.js";
+import { initializeCsrfToken, getCsrfToken } from "../utils/csrf.js";
 
 // ============== DOM 요소 참조 및 상수 =================
 
@@ -80,6 +81,7 @@ async function handleSubmit(e) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCsrfToken()
             },
             credentials: 'include',
             body: JSON.stringify({
@@ -147,6 +149,10 @@ async function deleteAccount() {
     try {
         const response = await fetch(`http://127.0.0.1:8080/api/v1/users/${userId}`, {
             method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                'X-XSRF-TOKEN': getCsrfToken()
+            },
             credentials: 'include'
         });
 
@@ -222,3 +228,5 @@ deleteModal.addEventListener("click", (e) => {
 // ============== 초기 실행 코드 =================
 
 loadUserProfile();
+
+initializeCsrfToken();

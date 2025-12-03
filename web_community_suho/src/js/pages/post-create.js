@@ -1,6 +1,7 @@
 // ============== Import 문 =================
 
 import { ERROR_MESSAGES } from "../config/constants.js";
+import { getCsrfToken, initializeCsrfToken } from "../utils/csrf.js";
 import { hideHelperText, showHelperText, showErrorHelperText } from "../utils/helperText.js";
 import { handleImageUpload } from "../utils/imageUpload.js";
 
@@ -65,6 +66,7 @@ async function handleSubmit(e) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCsrfToken()
             },
             credentials: 'include',
             body: JSON.stringify({
@@ -80,6 +82,7 @@ async function handleSubmit(e) {
             window.location.href = "./list.html";
         } else {
             alert("게시글 등록 실패: " + (data.message || "알 수 없는 오류"));
+            initializeCsrfToken();
         }
     } catch (error) {
         console.error("API 호출 에러:", error);
@@ -119,3 +122,8 @@ showHelperText(imageHelperText, ERROR_MESSAGES.IMAGE_FILE_SELECT);
 
 // 초기 버튼 색상 설정
 submitButton.style.backgroundColor = '#D1D5DB';
+
+//CSRF 토큰 초기화
+ (async () => {
+      await initializeCsrfToken();
+  })();

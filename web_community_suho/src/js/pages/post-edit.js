@@ -1,6 +1,7 @@
 // ============== Import 문 =================
 
 import { ERROR_MESSAGES } from "../config/constants.js";
+import { initializeCsrfToken, getCsrfToken } from "../utils/csrf.js";
 import { hideHelperText, showHelperText, showErrorHelperText } from "../utils/helperText.js";
 import { handleImageUpload } from "../utils/imageUpload.js";
 
@@ -71,6 +72,7 @@ async function handleSubmit(e) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'X-XSRF-TOKEN': getCsrfToken()
             },
             credentials: 'include',
             body: JSON.stringify({
@@ -142,3 +144,4 @@ submitButton.style.backgroundColor = '#D1D5DB';
 
 // 초기 데이터 로드
 loadPostData();
+initializeCsrfToken();

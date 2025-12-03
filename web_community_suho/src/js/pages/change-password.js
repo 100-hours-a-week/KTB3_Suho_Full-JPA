@@ -3,6 +3,7 @@
 import { ERROR_MESSAGES, SIGNUP_HELPER_MESSAGE } from "../config/constants.js";
 import { isValidPassword }  from "../utils/validation.js";
 import { showErrorHelperText, hideHelperText, showHelperText } from "../utils/helperText.js";
+import { getCsrfToken, initializeCsrfToken } from "../utils/csrf.js";
 
 // ============== DOM 요소 참조 및 상수 =================
 
@@ -62,6 +63,7 @@ async function handleChangePassword(e) {
             method: 'PATCH',
             headers: {
                 'Content-Type' : 'application/json',
+                'X-XSRF-TOKEN' : getCsrfToken()
             },
             credentials: 'include', // 쿠키 자동 저장/전송
             body: JSON.stringify({
@@ -107,3 +109,7 @@ passwordConfirmField.addEventListener("input", handleInputChange);
 
 
 document.getElementById("changePasswordForm").addEventListener("submit", handleChangePassword);
+
+// ============ 초기화 함수 =====================
+
+initializeCsrfToken();

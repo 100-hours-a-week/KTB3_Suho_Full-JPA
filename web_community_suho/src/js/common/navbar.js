@@ -32,12 +32,9 @@ if (logoutButton) {
                 credentials: 'include'
             });
 
-            if (response.ok) {
-                localStorage.clear();
-                window.location.href = '../auth/login.html';
-            } else {
-                alert('로그아웃 실패');
-            }
+            localStorage.clear();
+            window.location.href = '../auth/login.html';
+           
         } catch (error) {
             console.error('로그아웃 에러:', error);
             alert('로그아웃 실패');

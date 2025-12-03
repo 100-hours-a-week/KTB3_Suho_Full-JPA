@@ -2,6 +2,7 @@
 
 import { formatDate } from "../utils/formatter.js";
 import { requireLogin } from "../utils/auth-modal.js";
+import { getCsrfToken, initializeCsrfToken } from "../utils/csrf.js";
 
 // ============== DOM 요소 참조 및 상수 =================
 
@@ -146,7 +147,8 @@ async function deletePost() {
             const response = await fetch(`http://127.0.0.1:8080/api/v1/posts/${postId}`, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    'X-XSRF-TOKEN': getCsrfToken()
                 },
                 credentials: 'include'
             });
@@ -174,7 +176,8 @@ async function toggleLike() {
         const response = await fetch(`http://127.0.0.1:8080/api/v1/posts/${postId}/likes`, {
             method: method,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'X-XSRF-TOKEN': getCsrfToken()
             },
             credentials: 'include'
         });
@@ -207,6 +210,7 @@ async function deleteComment(commentId) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    'X-XSRF-TOKEN': getCsrfToken()
                 },
                 credentials: 'include',
             });
@@ -242,6 +246,7 @@ async function createOrUpdateComment() {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    'X-XSRF-TOKEN': getCsrfToken()
                 },
                 credentials: 'include',
                 body: JSON.stringify({
@@ -255,6 +260,7 @@ async function createOrUpdateComment() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'X-XSRF-TOKEN': getCsrfToken()
                 },
                 credentials: 'include',
                 body: JSON.stringify({
@@ -290,6 +296,7 @@ async function fetchPostDetail() {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                'X-XSRF-TOKEN': getCsrfToken()
             },
             credentials: 'include'
         });
@@ -339,3 +346,4 @@ document.getElementById('likeButton').addEventListener('click', () => {
 
 fetchPostDetail();
 updateCommentButtonState();
+initializeCsrfToken();
